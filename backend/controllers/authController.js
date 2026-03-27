@@ -7,14 +7,19 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ message: 'Email and password required' });
     
-    // Create default user if none exists
-    let user = await User.findOne({});
-    if (!user) {
-      const hashedPassword = await bcrypt.hash('123456', 10);
-      user = await User.create({ email: 'abc@gmail.com', password: hashedPassword });
-    }
+    // Check if user exists by email
+    let user = await User.findOne({ email });
     
-    if (user.email !== email) return res.status(401).json({ message: 'Invalid credentials' });
+    // Create default user if no users exist at all in the system
+    if (!user) {
+      const anyUser = await User.findOne({});
+      if (!anyUser && email === 'admin@gmail.com') {
+         const hashedPassword = await bcrypt.hash('admin123', 10);
+         user = await User.create({ email: 'admin@gmail.com', password: hashedPassword, role: 'admin' });
+      } else {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+    }
     
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
