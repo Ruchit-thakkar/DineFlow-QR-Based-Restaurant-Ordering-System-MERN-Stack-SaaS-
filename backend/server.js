@@ -13,6 +13,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"]
   }
 });
+const path = require("path");
 
 // Middleware
 app.use(cors());
@@ -24,11 +25,14 @@ app.set('io', io);
 // Socket.IO Connection
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
-  
+
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
 });
+
+app.use(express.static(path.join(__dirname, "./public")));
+
 
 // Routes
 app.use('/uploads', express.static('uploads'));
@@ -38,6 +42,9 @@ app.use('/api/tables', require('./routes/table'));
 app.use('/api/orders', require('./routes/order'));
 app.use('/api/reviews', require('./routes/review'));
 app.use('/api/bill-settings', require('./routes/billSettings'));
+app.get("*name", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
