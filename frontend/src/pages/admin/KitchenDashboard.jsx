@@ -42,7 +42,7 @@ export default function KitchenDashboard() {
   const fetchOrders = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -63,7 +63,7 @@ export default function KitchenDashboard() {
   const updateStatus = async (id, status) => {
     try {
       const token = Cookies.get('adminToken');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/orders/${id}/status`, { status }, {
+      await axios.put(`${(import.meta.env.VITE_API_URL || "")}/api/orders/${id}/status`, { status }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success(`Order marked as ${status}`);

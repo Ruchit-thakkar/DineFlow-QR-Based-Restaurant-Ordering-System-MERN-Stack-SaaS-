@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   const fetchStats = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/dashboard`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/orders/dashboard`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStats(res.data);

@@ -19,7 +19,7 @@ export default function AdminTables() {
   const fetchTables = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/tables`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/tables`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTables(res.data);
@@ -32,7 +32,7 @@ export default function AdminTables() {
     e.preventDefault();
     try {
       const token = Cookies.get('adminToken');
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/tables`, { name }, {
+      await axios.post(`${(import.meta.env.VITE_API_URL || "")}/api/tables`, { name }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Table created');
@@ -46,7 +46,7 @@ export default function AdminTables() {
   const deleteTable = async (id) => {
     try {
       const token = Cookies.get('adminToken');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/tables/${id}`, {
+      await axios.delete(`${(import.meta.env.VITE_API_URL || "")}/api/tables/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Table deleted');

@@ -18,7 +18,7 @@ export default function AdminAnalytics() {
   const fetchAnalytics = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/analytics`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/orders/analytics`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setData(res.data);

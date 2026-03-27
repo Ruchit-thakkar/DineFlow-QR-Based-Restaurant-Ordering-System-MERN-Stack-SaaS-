@@ -17,7 +17,7 @@ export default function AdminItems() {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/items`);
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/items`);
       setItems(res.data);
     } catch (err) {
       toast.error('Failed to fetch items');
@@ -33,12 +33,12 @@ export default function AdminItems() {
       if (imageFile) data.append('image', imageFile);
 
       if (editingId) {
-        await axios.put(`${import.meta.env.VITE_API_URL}/api/items/${editingId}`, data, {
+        await axios.put(`${(import.meta.env.VITE_API_URL || "")}/api/items/${editingId}`, data, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Item updated');
       } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/api/items`, data, {
+        await axios.post(`${(import.meta.env.VITE_API_URL || "")}/api/items`, data, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Item created');
@@ -56,7 +56,7 @@ export default function AdminItems() {
   const handleDelete = async (id) => {
     try {
       const token = Cookies.get('adminToken');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/items/${id}`, {
+      await axios.delete(`${(import.meta.env.VITE_API_URL || "")}/api/items/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Item deleted');

@@ -14,7 +14,7 @@ export default function AdminReviews() {
   const fetchReviews = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/reviews`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/reviews`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setReviews(res.data);
@@ -26,7 +26,7 @@ export default function AdminReviews() {
   const deleteReview = async (id) => {
     try {
       const token = Cookies.get('adminToken');
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/reviews/${id}`, {
+      await axios.delete(`${(import.meta.env.VITE_API_URL || "")}/api/reviews/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Review deleted');

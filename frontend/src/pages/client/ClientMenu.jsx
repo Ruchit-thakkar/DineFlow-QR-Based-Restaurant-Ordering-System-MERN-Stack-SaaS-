@@ -26,8 +26,8 @@ export default function ClientMenu() {
   const fetchData = async () => {
     try {
       const [itemsRes, catsRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/api/items`),
-        axios.get(`${import.meta.env.VITE_API_URL}/api/items/categories`)
+        axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/items`),
+        axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/items/categories`)
       ]);
       setItems(itemsRes.data);
       setCategories(['All', ...catsRes.data]);
@@ -71,7 +71,7 @@ export default function ClientMenu() {
   const placeOrder = async () => {
     if (cart.length === 0) return;
     try {
-      const dbTable = await axios.get(`${import.meta.env.VITE_API_URL}/api/tables`).then(res => res.data.find(t => t.identifier === tableId));
+      const dbTable = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/tables`).then(res => res.data.find(t => t.identifier === tableId));
       if (!dbTable) {
         toast.error('Invalid Table QR Code!. Please scan proper QR again.');
         return;
@@ -82,9 +82,9 @@ export default function ClientMenu() {
         items: cart,
         totalAmount: totalCartAmount
       };
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/orders`, payload);
+      const res = await axios.post(`${(import.meta.env.VITE_API_URL || "")}/api/orders`, payload);
       
-      const billRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/${res.data._id}/bill`);
+      const billRes = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/orders/${res.data._id}/bill`);
       
       setOrderComplete({ ...billRes.data.order, billDetails: billRes.data.billDetails, tableName: dbTable.name });
       setCart([]);

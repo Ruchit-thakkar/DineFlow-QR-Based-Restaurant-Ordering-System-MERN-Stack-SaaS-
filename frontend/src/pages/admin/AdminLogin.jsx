@@ -12,7 +12,7 @@ export default function AdminLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
+      const res = await axios.post(`${(import.meta.env.VITE_API_URL || "")}/api/auth/login`, { email, password });
       Cookies.set('adminToken', res.data.token, { expires: 1 });
       toast.success('Login successful');
       navigate('/admin/dashboard');

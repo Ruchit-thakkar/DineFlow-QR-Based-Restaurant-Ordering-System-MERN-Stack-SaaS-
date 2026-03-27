@@ -24,7 +24,7 @@ export default function AdminBillSettings() {
   const fetchSettings = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/bill-settings`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/bill-settings`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data) setSettings(res.data);
@@ -40,7 +40,7 @@ export default function AdminBillSettings() {
     e.preventDefault();
     try {
       const token = Cookies.get('adminToken');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/bill-settings`, settings, {
+      await axios.put(`${(import.meta.env.VITE_API_URL || "")}/api/bill-settings`, settings, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Bill settings saved successfully');

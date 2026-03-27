@@ -15,7 +15,7 @@ export default function ClientReview() {
         toast.error('Please select a rating');
         return;
       }
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/reviews`, formData);
+      await axios.post(`${(import.meta.env.VITE_API_URL || "")}/api/reviews`, formData);
       toast.success('Thank you for your feedback!');
       navigate(-1);
     } catch (err) {

@@ -10,7 +10,7 @@ export const generateBill = async (orderId, downloadType = 'pdf') => {
     const token = Cookies.get('adminToken');
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
     
-    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/${orderId}/bill`, { headers });
+    const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/orders/${orderId}/bill`, { headers });
     const { order, billDetails } = res.data;
     const settings = billDetails;
 

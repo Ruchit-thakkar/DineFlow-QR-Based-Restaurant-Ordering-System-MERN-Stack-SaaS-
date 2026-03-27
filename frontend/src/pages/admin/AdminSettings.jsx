@@ -11,7 +11,7 @@ export default function AdminSettings() {
     e.preventDefault();
     try {
       const token = Cookies.get('adminToken');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/update-credentials`, { email, password }, {
+      await axios.put(`${(import.meta.env.VITE_API_URL || "")}/api/auth/update-credentials`, { email, password }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Credentials updated successfully');

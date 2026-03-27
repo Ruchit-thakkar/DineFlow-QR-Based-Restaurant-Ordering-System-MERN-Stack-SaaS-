@@ -35,7 +35,7 @@ export default function AdminOrders() {
   const fetchOrders = async () => {
     try {
       const token = Cookies.get('adminToken');
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders`, {
+      const res = await axios.get(`${(import.meta.env.VITE_API_URL || "")}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(res.data);
@@ -47,7 +47,7 @@ export default function AdminOrders() {
   const handleConfirm = async (id) => {
     try {
       const token = Cookies.get('adminToken');
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/orders/${id}/status`, { status: 'CONFIRMED' }, {
+      await axios.put(`${(import.meta.env.VITE_API_URL || "")}/api/orders/${id}/status`, { status: 'CONFIRMED' }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Order confirmed');
